@@ -11,14 +11,10 @@ def createCmap(sequence, cmap='viridis'):
     return colormap
 
 def viz_matplotlib(mesh, points, sdf):
-    x_coords = [point[0] for point in points]
-    y_coords = [point[1] for point in points]
-    z_coords = [point[2] for point in points]
-
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.plot_trisurf(mesh.vertices[:, 0], mesh.vertices[:, 1], mesh.vertices[:, 2], triangles=mesh.faces)
-    ax.scatter(x_coords, y_coords, z_coords, c=sdf)
+    ax.scatter(points[:, 0], points[:, 1], points[:, 2], c=sdf)
     plt.show()
 
 def viz_trimesh(mesh, points, sdf, colormap):
