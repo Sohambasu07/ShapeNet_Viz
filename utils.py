@@ -21,8 +21,7 @@ def viz_trimesh(mesh, points, sdf, colormap):
     scene = trimesh.scene.Scene(mesh)
     point_cloud = trimesh.points.PointCloud(points, colors=colormap)
     # print(point_cloud.shape)
-    pt_scene = trimesh.scene.Scene(point_cloud)
-    scene.add_geometry(pt_scene)
+    scene.add_geometry(point_cloud)
     scene.show()
     # print(sdf.shape)
 
