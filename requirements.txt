@@ -1,3 +1,4 @@
 numpy
-trimesh
+trimesh[easy]
 "pyglet<2"
+rtree
