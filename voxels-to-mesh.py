@@ -1,5 +1,6 @@
 from mesh_to_sdf import mesh_to_voxels
 import skimage
+from skimage.util import view_as_blocks
 from utils import *
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,9 +8,16 @@ from mpl_toolkits.mplot3d import Axes3D
 
 mesh = trimesh.load('./ShapeNetCore.v2/02691156/1a04e3eab45ca15dd86060f189eb133/models/model_normalized.obj')
 # mesh = mesh.dump(concatenate=True)
-voxels = mesh_to_voxels(mesh, 64, pad=True)
-voxels = truncated_sdf(voxels, 0.4)
+voxels = mesh_to_voxels(mesh, 64, pad=False)
+voxels = truncated_sdf(voxels, 0.2)
 
+# Create patches of 8x8x8 from the 3D numpy array
+patches = view_as_blocks(voxels, block_shape=(8, 8, 8)).reshape(-1, 8, 8, 8)
+
+# Print the shape of the patches array
+print(patches.shape)
+
+# ------------- Just visualizes a cube, nothing useful can be seen in it
 # # Create a figure and a 3D axis
 # fig = plt.figure()
 # ax = fig.add_subplot(111, projection='3d')
@@ -27,7 +35,8 @@ voxels = truncated_sdf(voxels, 0.4)
 #
 # # Show the plot
 # plt.show()
+# -------------------------
 
-vertices, faces, normals, _ = skimage.measure.marching_cubes(voxels, level=0)
-mesh = trimesh.Trimesh(vertices=vertices, faces=faces, vertex_normals=normals)
-mesh.show()
+# vertices, faces, normals, _ = skimage.measure.marching_cubes(voxels, level=0)
+# mesh = trimesh.Trimesh(vertices=vertices, faces=faces, vertex_normals=normals)
+# mesh.show()
