@@ -1,4 +1,5 @@
 numpy
 trimesh[easy]
-"pyglet<2"
+pyglet<2
 rtree
+matplotlib

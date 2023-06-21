@@ -26,6 +26,7 @@ def viz_trimesh(mesh, points, sdf, colormap):
     # print(sdf.shape)
 
 def truncated_sdf(sdf, threshold):
-    sdf[sdf > threshold] = threshold
-    sdf[sdf < -threshold] = -threshold
-    return sdf
+    # sdf[sdf > threshold] = threshold
+    # sdf[sdf < -threshold] = -threshold
+    # return sdf
+    return np.clip(sdf, -threshold, threshold)
