@@ -26,7 +26,7 @@ class ShapeNet(Dataset):
         return len(self.paths)
 
 if __name__ == '__main__':
-
+    #load a saved tsdf file and display to verify
     with open('dataset/plane/plane_3.pkl', 'rb') as f:
         tsdf_sample = pickle.load(f)
 
