@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import matplotlib.cm as cmx
 import math
+import open3d as o3d
+from mesh_to_sdf import mesh_to_voxels
+
 
 def createCmap(sequence, cmap='viridis'):
     cmap = cmx.get_cmap(cmap)
@@ -33,13 +36,31 @@ def truncated_sdf(sdf, threshold):
     # return sdf
     return np.clip(sdf, -threshold, threshold)
 
-def obj_to_tsdf(obj_path, num_points, threshold):
-    mesh = trimesh.load_mesh(obj_path)
-    meshes = mesh.dump(concatenate=True)
+def obj_to_tsdf(obj_path, threshold, patch_size=64, max_triangle_count =5000):
+    scene = trimesh.load_mesh(obj_path)
+    if type(scene) == trimesh.scene.scene.Scene:
+        meshes = scene.dump(concatenate=True)
+    else:
+        meshes = scene
     merged_mesh = trimesh.util.concatenate(meshes)
-    gen = np.linspace(-1, 1, math.ceil(num_points**(1/3)))
-    points3D = np.array([np.array([x, y, z]) for x in gen for y in gen for z in gen])
 
-    sdf = prox.signed_distance(merged_mesh, points3D)
+    if len(merged_mesh.triangles) > max_triangle_count:
+        merged_mesh = decimate_mesh(obj_path, max_triangle_count)
+
+    # sdf = prox.signed_distance(merged_mesh, points3D)
+    sdf = mesh_to_voxels(merged_mesh, patch_size, pad=False)
     tsdf = truncated_sdf(sdf, threshold)
     return tsdf
+
+def decimate_mesh(path, target_triangles):
+    mesh_in = o3d.io.read_triangle_mesh(path)
+    mesh_in.compute_vertex_normals()
+
+    reduced_mesh = mesh_in.simplify_quadric_decimation(target_number_of_triangles=target_triangles)
+
+    # o3d.visualization.draw_geometries([reduced_mesh]) 
+
+    vertices = reduced_mesh.vertices
+    triangles = reduced_mesh.triangles
+    reduced_trimesh = trimesh.Trimesh(vertices, triangles)
+    return reduced_trimesh
