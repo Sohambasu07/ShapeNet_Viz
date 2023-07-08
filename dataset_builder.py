@@ -21,7 +21,8 @@ if __name__ == "__main__":
     if not os.path.exists(save_root_folder):
         os.mkdir(save_root_folder)
 
-    class_ids = {'plane': '02691156', 'chair': '03001627', 'table': '04379243'}
+    # class_ids = {'plane': '02691156', 'chair': '03001627', 'table': '04379243'}
+    class_ids = {'chair': '03001627', 'table': '04379243'}
     # class_ids = {'chair': '03001627', 'table': '04379243'}
     discarded_samples = ['de45798ef57fe2d131b4f9e586a6d334', '52e27aecdd55c1bf5b03388497f76a9e', 'a5d68126acbd43395e9e2656aff7dd5b', '5af850643d64c2621b17743c18fb63dc']
     num_points = args.grid_size ** 3
@@ -72,6 +73,9 @@ if __name__ == "__main__":
 
             with open(tsdf_save_path, 'wb') as f:
                 pickle.dump(tsdf_sample, f)
+            
+            if tsdf_no == 700:
+                break
 
             
         
