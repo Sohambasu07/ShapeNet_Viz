@@ -50,6 +50,10 @@ if __name__ == "__main__":
             os.mkdir(class_save_folder)
         cls_path = os.path.join(root_folder, class_ids[cls_name])
         for sample_id in os.listdir(cls_path):
+
+
+            if tsdf_no >= 700:
+                break
             
             #discards some models which give error
             sample_path = os.path.join(cls_path, sample_id + '/models/model_normalized.obj')
@@ -74,9 +78,6 @@ if __name__ == "__main__":
 
             with open(tsdf_save_path, 'wb') as f:
                 pickle.dump(tsdf_sample, f)
-            
-            if tsdf_no >= 700:
-                break
 
             
         
