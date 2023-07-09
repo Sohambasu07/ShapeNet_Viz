@@ -75,7 +75,7 @@ if __name__ == "__main__":
             with open(tsdf_save_path, 'wb') as f:
                 pickle.dump(tsdf_sample, f)
             
-            if tsdf_no == 700:
+            if tsdf_no >= 700:
                 break
 
             
