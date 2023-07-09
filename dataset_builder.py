@@ -44,6 +44,7 @@ if __name__ == "__main__":
     processed_sample_no = 0
     for cls_name in class_ids:
         tsdf_no = 0
+        print(f'Processing {cls_name} ----------------------')
         class_save_folder = os.path.join(save_root_folder, cls_name)
         if not os.path.exists(class_save_folder):
             os.mkdir(class_save_folder)
