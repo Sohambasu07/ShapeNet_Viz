@@ -52,7 +52,7 @@ if __name__ == "__main__":
         for sample_id in os.listdir(cls_path):
 
 
-            if tsdf_no >= 700:
+            if tsdf_no >= 1200:
                 break
             
             #discards some models which give error
