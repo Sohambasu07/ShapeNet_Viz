@@ -63,7 +63,7 @@ if __name__ == "__main__":
             if not os.path.isfile(sample_path) or sample_id in discarded_samples:
                 print(f"Invalid file: {sample_path}")
                 continue
-            print("Checkpoint 1")
+        
             #if this file already exist in the dataset skip it
             tsdf_save_path = os.path.join(class_save_folder, f'{cls_name}_{tsdf_no}.pkl')
             tsdf_no += 1
@@ -75,13 +75,9 @@ if __name__ == "__main__":
             else:
                 print(sample_path)
 
-            print("Checkpoint 2")
-
             try:
 
                 tsdf = obj_to_tsdf(sample_path, threshold, args.grid_size)
-
-                
 
                 tsdf_sample = {'tsdf':tsdf, 'model_path':sample_path}
 
