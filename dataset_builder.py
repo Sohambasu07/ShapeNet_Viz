@@ -81,14 +81,12 @@ if __name__ == "__main__":
 
                 tsdf = obj_to_tsdf(sample_path, threshold, args.grid_size)
 
-                print("Checkpoint 3")
+                
 
                 tsdf_sample = {'tsdf':tsdf, 'model_path':sample_path}
 
                 with open(tsdf_save_path, 'wb') as f:
                     pickle.dump(tsdf_sample, f)
-
-                print("Checkpoint 4")
 
                 print(f'Done {processed_sample_no}/{total_num_samples} ----------------------')
 

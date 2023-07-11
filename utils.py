@@ -40,18 +40,26 @@ def truncated_sdf(sdf, threshold):
 
 def obj_to_tsdf(obj_path, threshold, patch_size=64, max_triangle_count =5000):
     scene = trimesh.load_mesh(obj_path)
+    print("Checkpoint 3")
     if type(scene) == trimesh.scene.scene.Scene:
         meshes = scene.dump(concatenate=True)
     else:
         meshes = scene
     merged_mesh = trimesh.util.concatenate(meshes)
 
+    print("Checkpoint 4")
+
     if len(merged_mesh.triangles) > max_triangle_count:
         merged_mesh = decimate_mesh(obj_path, max_triangle_count)
 
+    print("Checkpoint 5")
+
     # sdf = prox.signed_distance(merged_mesh, points3D)
     sdf = mesh_to_voxels(merged_mesh, patch_size, pad=False)
+
+    print("Checkpoint 6")
     tsdf = truncated_sdf(sdf, threshold)
+    print("Checkpoint 7")
     return tsdf
 
 def decimate_mesh(path, target_triangles):
