@@ -52,21 +52,23 @@ def obj_to_tsdf(obj_path, threshold, patch_size=64, max_triangle_count =5000):
     if len(merged_mesh.triangles) > max_triangle_count:
         merged_mesh = decimate_mesh(obj_path, max_triangle_count)
 
-    print("Checkpoint 5")
+    
 
     # sdf = prox.signed_distance(merged_mesh, points3D)
     sdf = mesh_to_voxels(merged_mesh, patch_size, pad=False)
 
-    print("Checkpoint 6")
+    
     tsdf = truncated_sdf(sdf, threshold)
-    print("Checkpoint 7")
     return tsdf
 
 def decimate_mesh(path, target_triangles):
     mesh_in = o3d.io.read_triangle_mesh(path)
+    print("Checkpoint 5")
     mesh_in.compute_vertex_normals()
+    print("Checkpoint 6")
 
     reduced_mesh = mesh_in.simplify_quadric_decimation(target_number_of_triangles=target_triangles)
+    print("Checkpoint 7")
 
     # o3d.visualization.draw_geometries([reduced_mesh]) 
 
