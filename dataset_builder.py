@@ -22,9 +22,12 @@ if __name__ == "__main__":
         os.mkdir(save_root_folder)
 
     class_ids = {'plane': '02691156', 'chair': '03001627', 'table': '04379243'}
-    # class_ids = {'chair': '03001627', 'table': '04379243'}
-    # class_ids = {'chair': '03001627', 'table': '04379243'}
-    discarded_samples = ['de45798ef57fe2d131b4f9e586a6d334', '52e27aecdd55c1bf5b03388497f76a9e', 'a5d68126acbd43395e9e2656aff7dd5b', '5af850643d64c2621b17743c18fb63dc']
+    discarded_samples = []
+    with open('./discarded_samples.txt') as f:
+        discarded_samples = f.read().splitlines()
+
+
+    # discarded_samples = ['de45798ef57fe2d131b4f9e586a6d334', '52e27aecdd55c1bf5b03388497f76a9e', 'a5d68126acbd43395e9e2656aff7dd5b', '5af850643d64c2621b17743c18fb63dc']
     num_points = args.grid_size ** 3
     threshold = args.threshold
     gen = np.linspace(-1, 1, math.ceil(num_points**(1/3)))
@@ -65,19 +68,28 @@ if __name__ == "__main__":
             tsdf_save_path = os.path.join(class_save_folder, f'{cls_name}_{tsdf_no}.pkl')
             tsdf_no += 1
             processed_sample_no += 1
-            print(f'Done {processed_sample_no}/{total_num_samples} ----------------------')
+            # print(f'Done {processed_sample_no}/{total_num_samples} ----------------------')
             if os.path.exists(tsdf_save_path):
                 print(f"Already created: {tsdf_save_path}")
                 continue
             else:
                 print(sample_path)
 
-            tsdf = obj_to_tsdf(sample_path, threshold, args.grid_size)
+            try:
 
-            tsdf_sample = {'tsdf':tsdf, 'model_path':sample_path}
+                tsdf = obj_to_tsdf(sample_path, threshold, args.grid_size)
 
-            with open(tsdf_save_path, 'wb') as f:
-                pickle.dump(tsdf_sample, f)
+                tsdf_sample = {'tsdf':tsdf, 'model_path':sample_path}
+
+                with open(tsdf_save_path, 'wb') as f:
+                    pickle.dump(tsdf_sample, f)
+
+                print(f'Done {processed_sample_no}/{total_num_samples} ----------------------')
+
+            except Exception as e:
+                print(f"Error: {e}")
+                print("Error type: ", type(e).__name__)
+                continue
 
             
         
