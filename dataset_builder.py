@@ -13,6 +13,7 @@ if __name__ == "__main__":
     parser.add_argument("--save_path", type=str, help="save directory for tsdfs", default='dataset')
     parser.add_argument("--grid_size", type=int, help="one dimension of the grid", default=64)
     parser.add_argument("--threshold", type=float, help="tsdf threshold", default=0.2)
+    parser.add_argument("--num_tsdfs", type=float, help="no of tsdfs to generate per class", default=1200)
     
     args = parser.parse_args()
 
@@ -55,7 +56,7 @@ if __name__ == "__main__":
         for sample_id in os.listdir(cls_path):
 
 
-            if tsdf_no >= 1200:
+            if tsdf_no >= args.num_tsdfs :
                 break
             
             #discards some models which give error
