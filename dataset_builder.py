@@ -63,7 +63,7 @@ if __name__ == "__main__":
             if not os.path.isfile(sample_path) or sample_id in discarded_samples:
                 print(f"Invalid file: {sample_path}")
                 continue
-        
+            print("Checkpoint 1")
             #if this file already exist in the dataset skip it
             tsdf_save_path = os.path.join(class_save_folder, f'{cls_name}_{tsdf_no}.pkl')
             tsdf_no += 1
@@ -74,6 +74,8 @@ if __name__ == "__main__":
                 continue
             else:
                 print(sample_path)
+
+            print("Checkpoint 2")
 
             try:
 
@@ -89,7 +91,7 @@ if __name__ == "__main__":
             except Exception as e:
                 print(f"Error: {e}")
                 print("Error type: ", type(e).__name__)
-                continue
+                exit(0)
 
             
         
