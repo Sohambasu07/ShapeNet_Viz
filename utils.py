@@ -25,7 +25,7 @@ def viz_matplotlib(mesh, points, sdf):
     plt.show()
 
 def viz_trimesh(mesh, points, sdf, colormap):
-    scene = trimesh.scene.Scene(mesh)
+    scene = trimesh.scene.Scene(sdf)
     point_cloud = trimesh.points.PointCloud(points, colors=colormap)
     # print(point_cloud.shape)
     scene.add_geometry(point_cloud)

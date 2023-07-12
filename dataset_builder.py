@@ -22,7 +22,7 @@ if __name__ == "__main__":
     if not os.path.exists(save_root_folder):
         os.mkdir(save_root_folder)
 
-    class_ids = {'plane': '02691156', 'chair': '03001627', 'table': '04379243'}
+    class_ids = {'plane': '02691156', 'chair': '03001627', 'table': '04379243', 'car' : '02958343'}
     discarded_samples = []
     with open('./discarded_samples.txt') as f:
         discarded_samples = f.read().splitlines()
