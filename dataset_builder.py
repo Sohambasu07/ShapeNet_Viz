@@ -90,7 +90,9 @@ if __name__ == "__main__":
             except Exception as e:
                 print(f"Error: {e}")
                 print("Error type: ", type(e).__name__)
-                exit(0)
+                with open('./error_log.txt', 'a') as f:
+                    f.write(sample_path + ', ' + str(e) + '\n')
+                continue
 
             
         
