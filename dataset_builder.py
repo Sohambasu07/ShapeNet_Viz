@@ -23,7 +23,9 @@ if __name__ == "__main__":
         os.mkdir(save_root_folder)
 
     # class_ids = {'plane': '02691156', 'chair': '03001627', 'table': '04379243', 'car' : '02958343', 'vessel' : '04530566'}
-    class_ids = {'chair': '03001627', 'table': '04379243', 'bed' : '02818832', 'bench': '02828884', 'display': '03211117', 'bathtub': '02808440' }
+    # class_ids = {'chair': '03001627', 'table': '04379243', 'bed' : '02818832', 'bench': '02828884', 'display': '03211117', 'bathtub': '02808440' }
+    class_ids = {'bed' : '02818832', 'bench': '02828884', 'display': '03211117', 'bathtub': '02808440' }
+
     discarded_samples = []
     with open('./discarded_samples.txt') as f:
         discarded_samples = f.read().splitlines()
