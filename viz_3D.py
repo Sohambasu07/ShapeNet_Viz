@@ -4,7 +4,7 @@ import trimesh.proximity as prox
 import math
 from utils import*
 
-path = './ShapeNetCore.v2/02691156/1a04e3eab45ca15dd86060f189eb133/models/model_normalized.obj'
+path = './ShapeNetCore.v2/03211117/111f2a331b626935d82b15a1af434a9f/models/model_normalized.obj'
 
 num_points = 512
 

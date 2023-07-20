@@ -2,3 +2,4 @@ ShapeNetCore.v2/
 dataset/
 new_env/
 __pycache__/
+error_log.txt
