@@ -57,7 +57,7 @@ if __name__ == "__main__":
         for sample_id in os.listdir(cls_path):
 
 
-            if tsdf_no >= args.num_tsdfs :
+            if tsdf_no >= args.num_tsdfs or tsdf_no >= len(os.listdir(cls_path)) :
                 break
             
             #discards some models which give error
