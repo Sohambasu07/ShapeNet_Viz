@@ -49,6 +49,7 @@ if __name__ == "__main__":
         total_num_samples += len(os.listdir(cls_path))
 
     processed_sample_no = 0
+    err_count = 0
     for cls_name in class_ids:
         tsdf_no = 0
         print(f'Processing {cls_name} ----------------------')
@@ -72,6 +73,7 @@ if __name__ == "__main__":
             tsdf_save_path = os.path.join(class_save_folder, f'{cls_name}_{tsdf_no}.pkl')
             tsdf_no += 1
             processed_sample_no += 1
+            err = None
             # print(f'Done {processed_sample_no}/{total_num_samples} ----------------------')
             if os.path.exists(tsdf_save_path):
                 print(f"Already created: {tsdf_save_path}")
@@ -81,7 +83,12 @@ if __name__ == "__main__":
 
             try:
 
-                tsdf = obj_to_tsdf(sample_path, threshold, args.grid_size)
+                tsdf, err = obj_to_tsdf(sample_path, threshold, args.grid_size)
+
+                if err is not None:
+                    err_count += 1
+                    with open('./error_log.txt', 'a') as f:
+                        f.write(sample_path + ', ' + str(err) + ', count: ' + str(err_count) + '\n')
 
                 tsdf_sample = {'tsdf':tsdf, 'model_path':sample_path}
 

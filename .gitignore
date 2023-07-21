@@ -3,3 +3,4 @@ dataset/
 new_env/
 __pycache__/
 error_log.txt
+invalid_tsdfs.txt

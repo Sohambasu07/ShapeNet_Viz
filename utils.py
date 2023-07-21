@@ -1,5 +1,5 @@
 import os
-os.environ['PYOPENGL_PLATFORM'] = 'egl'
+# os.environ['PYOPENGL_PLATFORM'] = 'egl'
 import numpy as np
 import trimesh
 import trimesh.proximity as prox
@@ -9,6 +9,7 @@ import matplotlib.cm as cmx
 import math
 import open3d as o3d
 from mesh_to_sdf import mesh_to_voxels
+import skimage.measure
 
 
 def createCmap(sequence, cmap='viridis'):
@@ -50,9 +51,15 @@ def obj_to_tsdf(obj_path, threshold, patch_size=64, max_triangle_count =5000):
         merged_mesh = decimate_mesh(obj_path, max_triangle_count)
 
     # sdf = prox.signed_distance(merged_mesh, points3D)
-    sdf = mesh_to_voxels(merged_mesh, patch_size, pad=False)
+    err = None
+    try:
+        sdf = mesh_to_voxels(merged_mesh, patch_size, pad=False, sign_method='normal', check_result=True)
+    except Exception as e:
+        print(f"Error: {e}")
+        err = e
+        sdf = mesh_to_voxels(merged_mesh, patch_size, pad=False, sign_method='depth')
     tsdf = truncated_sdf(sdf, threshold)
-    return tsdf
+    return tsdf, err
 
 def decimate_mesh(path, target_triangles):
     mesh_in = o3d.io.read_triangle_mesh(path)
@@ -66,3 +73,19 @@ def decimate_mesh(path, target_triangles):
     triangles = reduced_mesh.triangles
     reduced_trimesh = trimesh.Trimesh(vertices, triangles)
     return reduced_trimesh
+
+def display_tsdf(tsdf, mc_level=0.0):
+    vertices, faces, normals, _ = skimage.measure.marching_cubes(tsdf, level=mc_level)
+    mesh = trimesh.Trimesh(vertices=vertices, faces=faces, vertex_normals=normals)
+    mesh.show()
+
+def check_voxels(voxels):
+    block = voxels[:-1, :-1, :-1]
+    d1 = (block - voxels[1:, :-1, :-1]).reshape(-1)
+    d2 = (block - voxels[:-1, 1:, :-1]).reshape(-1)
+    d3 = (block - voxels[:-1, :-1, 1:]).reshape(-1)
+
+    max_distance = max(np.max(d1), np.max(d2), np.max(d3))
+    check = 2.0 / voxels.shape[0] * 3**0.5 * 1.1
+    print(f"Max distance: {max_distance}, check: {check}")
+    return max_distance < check
