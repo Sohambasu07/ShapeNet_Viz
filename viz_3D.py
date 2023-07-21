@@ -23,7 +23,7 @@ def visualize_mesh(path, num_points=512):
 
 
 def visualize_tsdf(path, check=True):
-    tsdf, _ = obj_to_tsdf(path, 0.8, 64)
+    tsdf, _ = obj_to_tsdf(path, 0.2, 64)
     display_tsdf(tsdf)
     if check and not check_voxels(tsdf):
         print("Invalid tsdf")
