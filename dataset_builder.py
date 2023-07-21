@@ -102,6 +102,7 @@ if __name__ == "__main__":
                 print("Error type: ", type(e).__name__)
                 if e == 'KeyboardInterrupt':
                     break
+                
                 with open('./error_log.txt', 'a') as f:
                     f.write(sample_path + ', ' + str(e) + '\n')
                 continue
