@@ -98,7 +98,7 @@ if __name__ == "__main__":
                 print(f'Done {processed_sample_no}/{total_num_samples} ----------------------')
 
             except Exception as e:
-                print(f"Error: {e}")
+                print(f"Error in dataset_builder.py: {e}")
                 print("Error type: ", type(e).__name__)
                 if e == 'KeyboardInterrupt':
                     break

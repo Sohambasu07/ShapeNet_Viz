@@ -55,7 +55,7 @@ def obj_to_tsdf(obj_path, threshold, patch_size=64, max_triangle_count =5000):
     try:
         sdf = mesh_to_voxels(merged_mesh, patch_size, pad=False, sign_method='normal', check_result=True)
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error in mesh_to_voxels: {e}")
         err = e
         sdf = mesh_to_voxels(merged_mesh, patch_size, pad=False, sign_method='depth')
     tsdf = truncated_sdf(sdf, threshold)
