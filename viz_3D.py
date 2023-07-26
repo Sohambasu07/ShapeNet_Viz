@@ -28,7 +28,7 @@ def visualize_tsdf(path, check=True):
     if check and not check_voxels(tsdf):
         print("Invalid tsdf")
 
-def check_tsdfs(root_folder):
+def check_invalid_tsdfs(root_folder):
     invalid = 0
     total = 0
     with open('./invalid_tsdfs.txt', 'w') as invalid_tsdfs:
@@ -48,6 +48,29 @@ def check_tsdfs(root_folder):
                         print({tsdf_path})
     print(f"Total tsdfs: {total}")
     print(f"Total invalid tsdfs: {invalid}")
+
+def check_valid_tsdfs(root_folder):
+    valid = 0
+    total = 0
+    with open('./valid_tsdfs.txt', 'w') as valid_tsdfs:
+        lists = os.listdir(root_folder)
+        classes = [l for l in lists if os.path.isdir(os.path.join(root_folder, l))]
+        classes.remove('chair')
+        classes.remove('table')
+        for cls_name in classes:
+            cls_path = os.path.join(root_folder, cls_name)
+            for tsdf_name in os.listdir(cls_path):
+                tsdf_path = os.path.join(cls_path, tsdf_name)
+                with open(tsdf_path, 'rb') as f:
+                    tsdf_sample = pickle.load(f)
+                    tsdf = tsdf_sample['tsdf']
+                    total += 1
+                    if check_voxels(tsdf):
+                        valid += 1
+                        valid_tsdfs.write(f"{tsdf_path}\n")
+                        print({tsdf_path})
+    print(f"Total tsdfs: {total}")
+    print(f"Total valid tsdfs: {valid}")
         
 
 if __name__ == '__main__':
@@ -73,6 +96,8 @@ if __name__ == '__main__':
         visualize_mesh(path, num_points)
     elif function == 'tsdf':
         visualize_tsdf(path)
-    elif function == 'check':
-        check_tsdfs(root_folder)
+    elif function == 'check_valid':
+        check_valid_tsdfs(root_folder)
+    elif function == 'check_invalid':
+        check_invalid_tsdfs(root_folder)
     
